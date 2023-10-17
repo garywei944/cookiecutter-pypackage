@@ -1,0 +1,60 @@
+# Why pyproject.toml?
+# https://stackoverflow.com/a/67103294
+# https://ianhopkinson.org.uk/2022/02/understanding-setup-py-setup-cfg-and-pyproject-toml-in-python/
+
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
+[build-system]
+requires = ["setuptools >= 62.6"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{{ cookiecutter.project_slug }}"
+description = "{{ cookiecutter.project_short_description }}"
+requires-python = ">=3.6"
+{%- set license_classifiers = {
+    'MIT license': 'License :: OSI Approved :: MIT License',
+    'BSD license': 'License :: OSI Approved :: BSD License',
+    'ISC license': 'License :: OSI Approved :: ISC License (ISCL)',
+    'Apache Software License 2.0': 'License :: OSI Approved :: Apache Software License',
+    'GNU General Public License v3': 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
+} %}
+{%- if cookiecutter.open_source_license in license_classifiers %}
+license = { text = "{{ cookiecutter.open_source_license }}" }
+{%- endif %}
+authors = [
+    { name = "garywei944", email = "garywei944@gmail.com" },
+]
+keywords = ["{{ cookiecutter.project_slug }}"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+{%- if cookiecutter.open_source_license in license_classifiers %}
+    "{{ license_classifiers[cookiecutter.open_source_license] }}",
+{%- endif %}
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+
+]
+dynamic = ["version", "readme"]
+
+[project.urls]
+Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+# Documentation = "https://readthedocs.org"
+# Repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+Changelog = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/blob/main/HISTORY.rst"
+"Bug Tracker" = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
+
+[project.optional-dependencies]
+
+[tool.setuptools.dynamic]
+version = { attr = "{{ cookiecutter.project_slug }}.__version__" }
+readme = { file = ["README.rst", "HISTORY.rst"] }
