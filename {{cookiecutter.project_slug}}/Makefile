@@ -49,11 +49,11 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint/flake8: ## check style with flake8
-	flake8 {{ cookiecutter.project_slug }} tests
+	flake8 src/{{ cookiecutter.project_slug }} tests
 
 {%- if cookiecutter.use_black == 'y' %}
 lint/black: ## check style with black
-	black --check {{ cookiecutter.project_slug }} tests
+	black --check src/{{ cookiecutter.project_slug }} tests
 {%- endif %}
 
 lint: lint/flake8{%- if cookiecutter.use_black == 'y' %} lint/black{%- endif %} ## check style
@@ -93,9 +93,8 @@ release: dist ## package and upload a release
 	twine upload dist/*
 
 dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+	python -m build --sdist --wheel
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	python setup.py install
+	python -m build
